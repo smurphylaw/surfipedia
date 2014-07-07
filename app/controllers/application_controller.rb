@@ -8,6 +8,10 @@ class ApplicationController < ActionController::Base
   rescue_from Pundit::NotAuthorizedError do |exception|
     redirect_to root_url, alert: exception.message
   end
+
+  def after_sign_up_path_for(resource)
+    new_subscription_path
+  end
   
   protected
 

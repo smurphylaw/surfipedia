@@ -1,6 +1,6 @@
 <h1><%= markdown @wiki.title %></h1>
 
-<% if policy(@post).edit?
+<% if policy(@wiki).edit? %>
   <%= link_to "Edit", edit_wiki_path(@wiki), class: 'btn btn-success' %>
 <% end %>
 
