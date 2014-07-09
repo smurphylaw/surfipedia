@@ -41,6 +41,7 @@ gem 'figaro'
 gem 'redcarpet'
 gem 'pundit'
 gem 'stripe'
+gem 'quiet_assets'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
