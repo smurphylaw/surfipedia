@@ -4,8 +4,9 @@
   <title>Surfipedia</title>
     <%= stylesheet_link_tag  "application", media: "all" %>
     <%= javascript_include_tag "https://js.stripe.com/v1/", "application" %>
+    <%= javascript_tag "Stripe.publishableKey = '#{Rails.configuration.stripe[:publishable_key]}';" %>
     <%= csrf_meta_tags %>
-    <%= tag :meta, :name => "stripe-key", :content => STRIPE_PUBLIC_KEY %>
+    <%= tag :meta, :name => "stripe-key", :content => STRIPE_PUBLISHABLE_KEY %>
 </head>
 <body>
   <div class="container">
