@@ -18,6 +18,7 @@ subscription =
       cvc: $('#card_code').val()
       expMonth: $('#card_month').val()
       expYear: $('#card_year').val()
+
     Stripe.createToken(card, subscription.handleStripeResponse)
   
   handleStripeResponse: (status, response) ->

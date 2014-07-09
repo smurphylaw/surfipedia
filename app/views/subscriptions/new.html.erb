@@ -19,11 +19,11 @@
     </div>
   <% end %>
   
-  <div class="field">
+  <div>
     <%= f.label :email %>
     <%= f.text_field :email %>
   </div>
-  <% if @subscription.stripe_card_token.present? %>
+  <% if @subscription.stripe_card_token %>
     Credit card has been provided.
   <% else %>  
   <div class="field">
@@ -39,6 +39,7 @@
     <%= select_month nil, {add_month_numbers_true: true}, {name: nil, id: "card_month"}%>
     <%= select_year nil, {start_year: Date.today.year, end_year: Date.today.year+15}, {name: nil, id: "card_year"}%>
   </div>
+
   <div id="stripe_error">
     <noscript>JavaScript is not enabled and is required for this form. First enable it in your web browser settings.</noscript>
   </div>
