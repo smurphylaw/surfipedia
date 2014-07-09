@@ -5,12 +5,9 @@ jQuery ->
 subscription =
   setupForm: ->
     $('#new_subscription').submit ->
-      $('input[type=submit]').attr('disabled', true)
-    if $('#card_number').length  
+      $('input[type=submit]').attr('disabled', true) 
       subscription.processCard()  
       false  
-    else  
-      true
   
   processCard: ->
     card =

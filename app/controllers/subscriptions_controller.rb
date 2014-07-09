@@ -7,6 +7,7 @@ class SubscriptionsController < ApplicationController
   end
   
   def create
+    @subscription = current_user.build_subscription(subscription_params)
     @subscription = Subscription.new(subscription_params)
     if @subscription.save_with_payment
       redirect_to wikis_path, :notice => "Thank you for
