@@ -12,9 +12,9 @@ class ApplicationController < ActionController::Base
 
   protected
 
-  def after_sign_up_path_for(resource)
-    new_subscription_path
-  end
+#  def after_sign_up_path_for(resource)
+#    new_subscription_path
+#  end
 
   def configure_permitted_parameters
     devise_parameter_sanitizer.for(:sign_up) << :username

@@ -1,8 +1,8 @@
 Surfipedia::Application.routes.draw do
   
-  devise_for :users
+  devise_for :users, controllers: { registrations: 'users/registrations'}
   resources :wikis
-  resources :subscriptions, only: [:new, :create]
+  
 
   get 'about' => 'welcome#about'
 

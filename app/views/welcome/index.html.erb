@@ -1,18 +1,26 @@
-<br/>
-<h1>Surfipedia: Social, Markdown Wikis</h1>
+
 <div class="jumbotron">
-  <p>Create and share Markdown Wikis.</p>
-  <p>
-      <%= link_to "Sign Up", new_user_registration_path, class: 'btn btn-primary' %> today!
-      <%= link_to "Plans", new_subscription_path %>
-  </p>
+  <h1 class="center-header">Surfipedia</h1>
+  <h2 class="center-header">Social, Markdown Wikis</h2>
+  <br>
+  <div class="row">
+    <div class="col-md-5">
+      <h3>Free Account</h3>
+      <ul>
+        <li>Create public wikis</li>
+        <li>Add up to ## collaborators to your wikis</li>
+      </ul>
+      <%= link_to "Sign Up", new_user_registration_path(plan: '1'), class: 'btn btn-primary' %>
+    </div>
+    <div class="col-md-5 col-md-offset-2">
+      <h3>Premium Account</h3>
+      <ul>
+        <li>Create public or private wikis</li>
+        <li>Add unlimited collaborators to your wikis</li>
+      <ul>
+      <%= link_to "Sign Up", new_user_registration_path(plan: '2'), class: 'btn btn-primary' %>
+    </div>
+  </div>
 </div>
 
-<div class="col-md-6">
-  <p>Create as many public wikis as you want!</p>
- </div>
 
-  <div class="col-md-6">
-    <p>Create private wikis!</p>
-
-</div>
