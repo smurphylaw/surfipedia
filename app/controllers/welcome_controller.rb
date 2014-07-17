@@ -4,6 +4,7 @@ class WelcomeController < ApplicationController
   def index
     @free_plan
     @premium_plan
+    @wikis = Wiki.paginate(page: params[:title], per_page: 15)
   end
 
   def about
@@ -21,4 +22,5 @@ class WelcomeController < ApplicationController
       end
     end
   end
+
 end

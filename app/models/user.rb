@@ -4,12 +4,13 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable #, :confirmable
 
-  has_many :wikis
+  has_many :wikis, dependent: :destroy
+  has_many :collaborations
+  has_many :shared_wikis, through: :collaborations, source: :wiki
 
   belongs_to :plan
 
   validates_presence_of :plan_id
-  validates_presence_of :email
 
   def role?(base_role)
     role == base_role.to_s
@@ -28,5 +29,6 @@ class User < ActiveRecord::Base
     rescue Stripe::InvalidRequestError => e  
     logger.error "Stripe error while creating customer: #{e.message}"  
     errors.add :base, "There was a problem with your credit card."
+    false
   end
 end

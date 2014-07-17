@@ -1,3 +1,10 @@
+<% if user_signed_in? %>
+  <ul>
+    <%= render @wikis %>
+    <%= will_paginate @wikis %>
+  </ul>
+
+<% else %>
 
 <div class="jumbotron">
   <h1 class="center-header">Surfipedia</h1>
@@ -22,5 +29,6 @@
     </div>
   </div>
 </div>
+<% end %>
 
 

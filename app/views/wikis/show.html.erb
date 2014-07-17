@@ -1,7 +1,21 @@
-<h1><%= markdown @wiki.title %></h1>
+<% if user_signed_in? && @wiki.user == current_user %>
+<div class="col-md-8">
+  <div class="page-header">
+    <h1><%= @wiki.title %></h1>
+    <h4 style="display:inline; vertical-align:middle;"><%= @wiki.user.username %></h4>
+    <%= link_to 'Edit', edit_wiki_path(@wiki), class: 'btn btn-sm btn-default' %>
+      <%= link_to 'Delete', wiki_path(@wiki), method: :delete, class: 'btn btn-sm btn-danger' %>
+  </div>
+  <%= markdown @wiki.body %>
+</div>
 
-<% if policy(@wiki).edit? %>
-  <%= link_to "Edit", edit_wiki_path(@wiki), class: 'btn btn-success' %>
+<% else %>
+
+<div class="col-sm-12">
+  <div class="page-header">
+    <h1><%= @wiki.title %></h1>
+    <h4><%= @wiki.user %></h4>
+  </div>
+  <%= markdown @wiki.body %>
+</div>
 <% end %>
-
-<p><%= markdown @wiki.body %></p>

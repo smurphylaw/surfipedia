@@ -7,7 +7,7 @@ class WikiPolicy < ApplicationPolicy
     user.present? || user.role?(:admin)
   end
 
-  def new
+  def new?
     @wiki = Wiki.new
     authorize @wiki
   end
@@ -15,4 +15,9 @@ class WikiPolicy < ApplicationPolicy
   def update?
     create?
   end
+
+  def edit?
+    create?
+  end
+  
 end
