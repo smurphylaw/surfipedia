@@ -1,0 +1,23 @@
+<%= provide(:title, @user.username) %>
+<div class="row">
+  <div class="page-header">
+    <h1><%= @user.username %></h1> 
+  </div>
+
+  <div class="col-md-6">
+    <% if @user.wikis.any? %>
+    <h3><%= @user.wikis.count %> Wikis </h3>
+    <ol class="wikis">
+      <% render @wikis %>
+    </ol>
+    <%= will_paginate @wikis %>
+    <% end %>
+  </div> 
+  <div class="col-md-6">
+    <% if @user == current_user %>
+      <h3>Shared Wikis</h3>
+      <% @user.shared_wikis.each do |shared_wikis| %>
+        <h3><%= link_to share_wiki.title, wiki_path(shared_wikis) %></h3>
+      <% end %>
+    <% end %>
+  </div>

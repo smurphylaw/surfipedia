@@ -8,13 +8,9 @@ class User < ActiveRecord::Base
   has_many :collaborations
   has_many :shared_wikis, through: :collaborations, source: :wiki
 
-  belongs_to :plan
+  has_one :plan, dependent: :destroy
 
   validates_presence_of :plan_id
-
-  def role?(base_role)
-    role == base_role.to_s
-  end
   
   attr_accessor :stripe_card_token
   

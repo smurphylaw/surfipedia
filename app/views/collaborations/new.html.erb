@@ -1,0 +1,26 @@
+<div class="row">
+  <div class="col-md-6">
+    <%= form_for (@collaboration) do |f| %>
+    <%= hidden_field_tag :wiki_id, @wiki %>
+  
+      <% @users.each do |user| %>
+      <% next if current_user == user %>
+        <div class="checkbox">
+    
+        <%= user.username %>
+    
+        <% collaborations.each do |collaboration| %>
+        <% if user.collaborations.include?(collaboration) %>
+          <%= link_to "| Remove", collaboration, method: :delete %>
+        <% end %>
+      <% end %>
+    
+    </div>
+  <% end %>
+
+  <%= f.submit 'Add Collaborators', class: 'btn btn-primary' %>
+
+  </div>
+
+<% end %>
+</div>
