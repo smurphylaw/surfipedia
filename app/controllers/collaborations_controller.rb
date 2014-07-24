@@ -1,38 +1,39 @@
 class CollaborationsController < ApplicationController
-  before_action :authenticate_user!
-
-
-  def show
-    @collaboration = Collaboration.find(params[:wiki_id])
-  end
-
+  
   def new
-    @collaboration = Collaboration.new
+    @users = User.all
   end
 
   def create
-    @wiki = Wiki.friendly.find(params[:id])
-    @collaboration = Collaboration.new(user_id: params[:user_id], wiki_id:  @wiki.id)
+    @wiki = Wiki.find( params[:wiki_id] )
+    @collaborations = @wiki.collaborations
+
+    @collaboration = current_user.comments.build(collaboration_params)
+    @comment.wiki = @wiki
+    @new_comment = Collaboration.new
 
     if @collaboration.save
-      redirect_to wikis_path, notice: "#{@wiki.title} wiki shared."
+      flash[:notice] = "Collaborations was saved."
     else
-      flash[:error] = "Error sharing wiki. Try again."
-      render :new
+      flash[:error] = "There was an error saving the collaborations. Please try again."
     end
   end
 
   def destroy
     @wiki = Wiki.find(params[:wiki_id])
-    @collaboration = Collaboration.find(params[:id])
-    @collaboratoin.destroy
-    flash[:notice] = "Collaboration successfully deleted."
-    redirect_to wikis_path
+
+    @comment = @wiki.comments.find(params[:id])
+
+    if @collaboration.destroy
+      flash[:notice] = "Collaboration was removed."
+    else
+      flash[:error] = "Collaboration couldn't be removed. Try again."
+    end
+
   end
 
 private
   def collaboration_params
-    params.require(:collaboration).permit(:user_id, :wiki_id)
+    params.require(:collaboration).permit(:wiki_id)
   end
-
 end

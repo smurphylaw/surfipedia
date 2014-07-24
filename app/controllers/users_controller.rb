@@ -9,4 +9,5 @@ class UsersController < ApplicationController
     @users = User.all
     @wikis = @user.wikis.paginate(page: params[:title])
   end
+
 end

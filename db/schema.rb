@@ -11,16 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140712053343) do
+ActiveRecord::Schema.define(version: 20140724041047) do
 
   create_table "collaborations", force: true do |t|
-    t.integer  "wiki_id"
     t.integer  "user_id"
+    t.integer  "wiki_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "collaborations", ["wiki_id", "user_id"], name: "index_collaborations_on_wiki_id_and_user_id"
+  add_index "collaborations", ["wiki_id"], name: "index_collaborations_on_wiki_id"
 
   create_table "friendly_id_slugs", force: true do |t|
     t.string   "slug",                      null: false
@@ -63,11 +63,11 @@ ActiveRecord::Schema.define(version: 20140712053343) do
     t.string   "role"
     t.string   "stripe_customer_token"
     t.integer  "plan_id"
+    t.string   "account_type"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-
 
   create_table "wikis", force: true do |t|
     t.string   "title"

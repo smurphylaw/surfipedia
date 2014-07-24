@@ -3,22 +3,19 @@ class WikisController < ApplicationController
 
   def index
     @wikis = Wiki.paginate(page: params[:page], per_page: 15)
-      if current_user
-        @pwikis = Wiki.where(user_id: current_user.id, private: true)
-    end
   end
 
   def show
     @wiki = Wiki.friendly.find(params[:id])
     @wikis = Wiki.paginate(page: params[:page], per_page: 15)
     authorize @wiki
-    if request.path != wiki_path(@wiki)
-      redirect_to @wiki, status: :moved_permanently
-    end
+    @collaborations = @wiki.collaborations
+    @collaboration = Collaboration.new
   end
 
   def new
     @wiki = current_user.wikis.build
+    authorize @wiki
   end
 
   def create
@@ -40,16 +37,12 @@ class WikisController < ApplicationController
   def edit
     @wiki = Wiki.friendly.find(params[:id])
     authorize @wiki
-
-    @users = User.not_current_user(current_user)
-    @users.reject! do |user|
-      @wiki.WikisController.pluck(:user_id).include? user.id or
-      user.id == current_user.id
-    end
+    @collaborations = @wiki.collaborations
   end
 
   def update
     @wiki = Wiki.friendly.find(params[:id])
+
     if @wiki.update_attributes(wikis_params)
         flash[:notice] = "#{@wiki.title} wiki was updated"
         redirect_to @wiki
@@ -69,6 +62,16 @@ class WikisController < ApplicationController
       flash[:error] = "There was an error deleting wiki. Please try again."
       render :show
     end
+  end
+
+  def collaborators
+    @collaborators = @wiki.collaborators    
+    @users = User.all
+  end
+
+  def update_collaborators
+    @wiki.replace_collaborators params[:collaborators]
+    redirect_to collaborators_wiki_path(@wiki), notice: 'Collaborators updated'
   end
 
   private

@@ -6,18 +6,24 @@ class WikiPolicy < ApplicationPolicy
   def create?
     user.present? || user.role?(:admin)
   end
-
-  def new?
-    @wiki = Wiki.new
-    authorize @wiki
-  end
   
   def update?
-    create?
+     user.present?
+  end
+ 
+  def collaborators?
+     update_collaborators?
+  end
+   
+  def update_collaborators?
+      update?
   end
 
   def edit?
     create?
   end
   
+  def make_private?
+    user.present?
+  end
 end

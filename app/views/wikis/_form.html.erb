@@ -1,27 +1,22 @@
-<div id="epiceditor">
+
 <%= form_for @wiki do |f| %>
       <% render 'shared/error_messages', object: f.object %>
-      <div class="form-group">
-        <%= f.label :title %>
-        <%= f.text_field :title, class: 'form-control', placeholder: "Enter wiki title" %>
-      </div>
-
-      <% if can? :privatize, @wiki %>
-        <div class='form-group'>
-          <%= f.label :public, class: 'checkbox pull-right' do %>
-            <%= f.check_box :private %> Private Wiki
-          <% end %>
+        <div class="form-group">
+          <%= f.label :title %>
+          <%= f.text_field :title, class: 'form-control', placeholder: "Enter wiki title" %>
         </div>
-      <% end %>
 
-      <div class="form-group">
-        <%= f.label :body %>
-        <%= f.text_area :body, rows: 8, class: 'form-control markdown_preview', placeholder: "Enter wiki body" %>
-      </div>
+        <div class="form-group" id="epiceditor">
+          <%= f.label :body %>
+          <%= f.text_area :body, rows: 8, class: 'form-control markdown_preview', placeholder: "Enter wiki body" %>
+        </div>
         
-        
+        <script src="epiceditor.min.js"></script>  
 
+        <% if policy(@wiki).make_private? %>
+          <%= f.check_box :private, boolean_style: :inline %>
+        <% end %>
+      
       <%= f.submit "Save", class: 'btn btn-success' %>
     
 <% end %>
-</div>

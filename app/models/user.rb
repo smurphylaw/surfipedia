@@ -4,15 +4,18 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable #, :confirmable
 
-  has_many :wikis, dependent: :destroy
+  has_many :wikis, through: :collaborations, dependent: :destroy
   has_many :collaborations
-  has_many :shared_wikis, through: :collaborations, source: :wiki
 
   has_one :plan, dependent: :destroy
 
   validates_presence_of :plan_id
   
   attr_accessor :stripe_card_token
+
+  def account_type?(base_account)
+    account_type == base_account.to_s
+  end
   
   def save_with_payment
     if valid?
