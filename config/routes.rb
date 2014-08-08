@@ -1,6 +1,6 @@
 Surfipedia::Application.routes.draw do
 
-  devise_for :users, controllers: { registrations: 'users/registrations'}
+  devise_for :users
 
   devise_scope :user do
     get 'register', to: 'devise/registrations#new'
@@ -11,18 +11,12 @@ Surfipedia::Application.routes.draw do
   end
   
   resources :wikis do
-    member do
-      get 'collaborators'
-      put 'update_collaborators'
-    end
+    resources :collaborators
   end
 
-  
+  resources :charges, only: [:new, :create]
 
-  get 'about' => 'welcome#about'
-
-  
-
+  get '/wikis/public', to: 'wikis#public'
   root to: 'welcome#index'
 
 end

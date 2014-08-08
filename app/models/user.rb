@@ -4,17 +4,20 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable #, :confirmable
 
-  has_many :wikis, through: :collaborations, dependent: :destroy
-  has_many :collaborations
-
-  has_one :plan, dependent: :destroy
-
-  validates_presence_of :plan_id
+  has_many :wikis
+  has_many :collaborators
   
   attr_accessor :stripe_card_token
 
-  def account_type?(base_account)
-    account_type == base_account.to_s
+  scope :premium, -> { where(premium: true) }
+  scope :not, ->(id) { where('id != ?', id)}
+
+  def collaborations
+    wikis = []
+    Collaborator.where(user: self).each do |collaboration|
+      wikis << Wiki.find(collaboration.wiki_id)
+    end
+    wikis
   end
   
   def save_with_payment

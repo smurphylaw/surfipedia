@@ -22,8 +22,30 @@
   <div><%= f.submit "Update" %></div>
 <% end %>
 
-<h3>Cancel my account</h3>
+<div>
+  <% if !current_user.premium? %>
+    <h3>Upgrade Account</h3>
+    <%= form_tag charges_path do %>
+    <!-- The form doesn't pass the amount to the create action, so we have to pass it manually. -->
+      <%= hidden_field_tag :amount, 2500  %>
 
-<p>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete %></p>
+      <h4>Click the button!</h4>
+      <script
+        class='stripe-button' 
+        src="https://checkout.stripe.com/checkout.js" 
+        data-key="<%= Rails.configuration.stripe[:publishable_key] %>" 
+        data-amount="299"
+        data-name="Blocipedia"
+        data-description="One Year Membership"
+        data-label="Upgrade Account"
+        data-email="<%= current_user.email %>" >
+      </script>
+    <% end %>
+  <% end %>
+
+  <h3>Cancel my account</h3>
+
+  <p>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete %></p>
+</div>
 
 <%= link_to "Back", :back %>

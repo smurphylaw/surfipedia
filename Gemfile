@@ -37,6 +37,13 @@ group :development do
   gem 'better_errors'
 end
 
+group :test do
+  gem 'database_cleaner'
+  gem 'rspec-rails'
+  gem 'capybara', '~>2.3.0'
+  gem 'factory_girl_rails', '~> 4.0'
+end
+
 gem 'faker'
 gem 'devise'
 gem 'figaro'

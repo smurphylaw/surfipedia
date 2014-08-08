@@ -1,80 +1,73 @@
 class WikisController < ApplicationController
   before_action :authenticate_user!
+  before_action :set_wiki, only: [:show, :edit, :update, :destroy]
 
   def index
+    @wikis = current_user.wikis
     @wikis = Wiki.paginate(page: params[:page], per_page: 15)
+    @collaborations = current_user.collaborations
+  end
+
+  def public
+    @wikis = Wiki.where('private = ?', false)
   end
 
   def show
-    @wiki = Wiki.friendly.find(params[:id])
-    @wikis = Wiki.paginate(page: params[:page], per_page: 15)
-    authorize @wiki
-    @collaborations = @wiki.collaborations
-    @collaboration = Collaboration.new
   end
 
   def new
     @wiki = current_user.wikis.build
-    authorize @wiki
   end
 
   def create
-    @wiki = current_user.wikis.build(wikis_params)
-    
-    @wiki.user_id = current_user.id unless current_user == nil
-    @wiki.private = false unless wikis_params["private"] = 1
+    @wiki = current_user.wikis.new(wikis_params)
 
-    authorize @wiki
-    if @wiki.save
-      flash[:notice] = "#{@wiki.title} wiki created."
-      redirect_to @wiki 
-    else
-      flash[:error] = "There was an error saving the wiki. Please try again."
-      render :new
+    respond_to do |format|              
+      if @wiki.save
+        format.html { redirect_to @wiki, notice: "Wiki created." }
+        format.json { render :show, status: :created, location: @wiki }
+      else
+        format.html { render :new }
+        format.json { render json: @wiki.errors, status: :unprocessable_entity}
+      end
     end
   end
 
   def edit
-    @wiki = Wiki.friendly.find(params[:id])
-    authorize @wiki
-    @collaborations = @wiki.collaborations
   end
 
   def update
     @wiki = Wiki.friendly.find(params[:id])
 
-    if @wiki.update_attributes(wikis_params)
-        flash[:notice] = "#{@wiki.title} wiki was updated"
-        redirect_to @wiki
-    else
-      flash[:error] = "There was an error saving the wiki. Please try again."
-      render :edit
+    respond_to do |format|
+      if @wiki.update(wikis_params)
+          format.html { redirect_to @wiki, notice: "Wiki was updated" }
+          format.json { render :show, status: :ok, location: @wiki }
+      else
+        format.html { render :edit }
+        format.json { render json: @wiki.errors, status: :unprocessable_entity}
+      end
     end
   end
 
   def destroy
     @wiki = Wiki.friendly.find(params[:id])
-    authorize @wiki
-    if @wiki.destroy
-      flash[:notice] = "#{@wiki.title} wiki was successfully deleted."
-      redirect_to root_url
-    else
-      flash[:error] = "There was an error deleting wiki. Please try again."
-      render :show
+
+    respond_to do |format|
+      if @wiki.destroy
+        format.html { redirect_to wikis_url, notice: "Wiki was successfully deleted." }
+        format.json { head :no_content }
+      else
+        flash[:error] = "There was an error deleting wiki. Please try again."
+        render :show
+      end
     end
   end
 
-  def collaborators
-    @collaborators = @wiki.collaborators    
-    @users = User.all
+private
+  def set_wiki
+    @wiki = Wiki.friendly.find(params[:id])
   end
-
-  def update_collaborators
-    @wiki.replace_collaborators params[:collaborators]
-    redirect_to collaborators_wiki_path(@wiki), notice: 'Collaborators updated'
-  end
-
-  private
 
   def wikis_params
     params.require(:wiki).permit(:title, :body, :private, :user_id)

@@ -1,0 +1,21 @@
+<h1><%= @wiki.title %> collaborators</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Users:</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @collaborators.each do |collaborator| %>
+      <tr>
+        <td><%= collaborator.user.username %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Collaborator', new_wiki_collaborator_path %>

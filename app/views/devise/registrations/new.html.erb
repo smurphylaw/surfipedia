@@ -4,10 +4,8 @@
 
 <div class="row">
   <div class="panel-body">
-      <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), html: {id: "sign-in"}) do |f| %>
+      <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
       <%= devise_error_messages! %>
-      
-      <%= hidden_field_tag 'plan', params[:plan] %>
 
       <div class="form-group">
            <%= f.label :username %>
@@ -28,30 +26,13 @@
            <%= f.label :password_confirmation %>
            <%= f.password_field :password_confirmation, class: "form-control" %>
          </div>
-
-      <% if params[:plan] == "2" %>
-      <%= f.hidden_field :stripe_card_token %>
-           <div class="form-group">
-             <%= label_tag :card_number, "Credit Card Number" %>
-             <%= text_field_tag :card_number, nil, name: nil %>
-           </div>
-           <div class="form-group">
-             <%= label_tag :card_code, "Security Code on Card (CVV)" %>
-             <%= text_field_tag :card_code, nil, name: nil %>
-           </div>
-           <div class="form-group">
-             <%= label_tag :card_month, "Card Expiration" %>
-             <%= select_month nil, {add_month_numbers: true}, {name: nil, id: "card_month"}%>
-             <%= select_year nil, {start_year: Date.today.year, end_year: Date.today.year+15}, {name: nil, id: "card_year"}%>
-           </div>
-           <div id="stripe_error">
-             <noscript>JavaScript is not enabled and is required for this form. First enable it in your web browser settings.</noscript>
-           </div>
-        <% end %>
         
-
         <div class="form-group">
           <%= f.submit "Sign up", class: 'btn btn-success' %>
+        </div>
+
+        <div class="form-group">
+          <%= render "devise/shared/links" %>
         </div>
         
       <% end %>

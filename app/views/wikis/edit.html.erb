@@ -4,8 +4,11 @@
   <div class="col-md-8">
     <h1>Edit Wiki</h1>
 
-    <%= render 'form' %>
-    
+    <%= render 'form' %>  
   </div>
+
+  <% if current_user.premium? && @wiki.user == current_user %>
+    <%= link_to 'Add Collaborator', new_wiki_collaborator_path(@wiki) %>
+  <% end %>
 
 </div>

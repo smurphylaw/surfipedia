@@ -1,0 +1,20 @@
+<%= form_for([@wiki, @collaborator]) do |f| %>
+  <% if @collaborator.errors.any? %>
+    <div id="error_explanation">
+      <% render 'shared/error_messages', object: f.object %>
+      <h2><%= pluralize(@collaborator.errors.count, "error") %> prohibited this collaborator from being saved: </h2>
+        <ul>
+          <% @collaborator.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+  <div>
+    <%= f.select :user_id, options_for_select( User.all.map { |u| [u.username, u.id] }), { :include_blank => "-- Select One --" } %>
+  </div>
+  <br/>
+
+  <%= f.submit "Update", class: 'btn btn-success' %>
+<% end %>
