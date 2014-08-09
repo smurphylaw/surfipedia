@@ -1,5 +1,5 @@
-require 'spec_helper'
+require 'rails_helper'
 
-describe Collaboration do
-  it { should validate_uniqueness_of(:user_id).scoped_to(:wiki_id)}
+RSpec.describe Collaborator, type: :model do
+  pending "add some examples to (or delete) #{__FILE__}"
 end

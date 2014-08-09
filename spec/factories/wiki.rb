@@ -1,7 +1,8 @@
 FactoryGirl.define do
    factory :wiki do
       title "MyString"
-      content "MyText"
+      body "MyText"
       private false
-      owner nil
+      user nil
+    end
  end

@@ -1,6 +1,5 @@
-require 'spec_helper'
+require 'rails_helper'
 
-describe Wiki do
-  it { should have_many(:users).through(:collaborations) }
-  it { should validate_uniqueness_of :title }
+RSpec.describe Wiki, :type => :model do
+  pending "add some examples to (or delete) #{__FILE__}"
 end

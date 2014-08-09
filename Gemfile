@@ -35,9 +35,10 @@ group :development do
   gem 'sqlite3'
   gem 'binding_of_caller'
   gem 'better_errors'
+  gem 'quiet_assets'
 end
 
-group :test do
+group :development, :test do
   gem 'database_cleaner'
   gem 'rspec-rails'
   gem 'capybara', '~>2.3.0'
@@ -50,10 +51,10 @@ gem 'figaro'
 gem 'redcarpet'
 gem 'pundit'
 gem 'stripe'
-gem 'quiet_assets'
 gem 'friendly_id'
 gem 'will_paginate'
 gem 'cancancan'
+gem 'epic-editor-rails'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

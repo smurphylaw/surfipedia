@@ -17,11 +17,12 @@
           <%= f.text_field :title, class: 'form-control', placeholder: "Enter wiki title" %>
         </div>
 
-        <div id="epiceditor" class="form-group">
-        </div>
         
         <%= f.label :body %>
-        <%= f.text_area :body, rows: 8, id: "epictextarea", class: 'form-control', placeholder: "Enter wiki body" %>
+        <%= f.text_area :body, rows: 8, id: "epictextarea", class: 'hide', placeholder: "Enter wiki body" %>
+
+        <div id="epiceditor" class="form-control">
+        </div>
 
         <% if @wiki.user == current_user %>
           <div class="form-group">
